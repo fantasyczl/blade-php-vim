@@ -1,4 +1,5 @@
 " Language: Blade
+"
 
 
 if exists("b:did_indent")
