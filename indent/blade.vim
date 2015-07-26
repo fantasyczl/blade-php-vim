@@ -1,5 +1,7 @@
 " Language: Blade
-"
+" Author:	fantasyczl <czilong0618@gmail.com>
+" Last Change:  2015 July 26th
+" Version:  0.1
 
 
 if exists("b:did_indent")
