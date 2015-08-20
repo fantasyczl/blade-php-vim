@@ -21,37 +21,32 @@ setlocal indentkeys=o,O<Return>,<>>,{,},!^F,0{,0},0),:,!^F,e,*<Return>,=?>,=<?,=
 
 function! GetBladeIndent()
     let lnum = v:lnum
-    echo "lnum = " lnum
     let preNum = prevnonblank(lnum - 1)
-    echo "preNum = " preNum
     
     if preNum == 0
         return 0
     endif
 
 	let indent = HtmlIndent()
-    echo "indent = " indent
 
-    if indent == -1
-        let preLine = getline(preNum)
-        let curLine = getline(lnum)
-        echo "curLine = " curLine
+    let preLine = getline(preNum)
+    let curLine = getline(lnum)
 
-        if preLine =~? '^\s*@end'
-            let indent = indent(preNum)
-        elseif preLine =~? '^\s*@'
-            let indent = indent(preNum) + &sw
+    if preLine =~? '^\s*@end'
+        "let indent += indent(preNum)
+    elseif preLine =~? '^\s*@'
+        let indent += &sw
+    else
+        if curLine =~? '^\s*@end' || curLine =~? '^\s*@stop' || curLine =~? '^\s*@else'
+            ""&& preLine !~? '^\s*@'
+            let indent -= &sw
         else
-            if curLine =~? '^\s*@end' && preLine !~? '^\s*@'
-                let indent = indent(preNum) 
-            else
-                let indent = indent(preNum)
-            endif
+            "let indent += indent(preNum)
         endif
-
-        silent! unlet preLine
-        silent! unlet curLine
     endif
+
+    silent! unlet preLine
+    silent! unlet curLine
 
     return indent
 endfunc
