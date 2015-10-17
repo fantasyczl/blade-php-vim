@@ -14,6 +14,10 @@ runtime! indent/php.vim
 
 let b:did_indent = 1
 
+let b:startList = []
+let b:centerList = []
+let b:endList = []
+
 setlocal indentexpr=GetBladeIndent()
 
 setlocal indentkeys=o,O<Return>,<>>,{,},!^F,0{,0},0),:,!^F,e,*<Return>,=?>,=<?,=*/,@
@@ -32,17 +36,12 @@ function! GetBladeIndent()
     let preLine = getline(preNum)
     let curLine = getline(lnum)
 
-    if preLine =~? '^\s*@end'
-        "let indent += indent(preNum)
-    elseif preLine =~? '^\s*@'
+    if IsTagStart(preLine) == 1
         let indent += &sw
-    else
-        if curLine =~? '^\s*@end' || curLine =~? '^\s*@stop' || curLine =~? '^\s*@else'
-            ""&& preLine !~? '^\s*@'
-            let indent -= &sw
-        else
-            "let indent += indent(preNum)
-        endif
+    endif
+
+    if IsTagEnd(line)
+        let indent -= &sw
     endif
 
     silent! unlet preLine
@@ -52,8 +51,21 @@ function! GetBladeIndent()
 endfunc
 
 
-function! BladeTagOpen(lnum)
+function! IsTagStart(line)
+    if line =~? '^\s*@if' || line =~? '^\s*@else' || line =~? '^\s*@for' || line =~? '^\s*@sect'
+        return 1
+    endif
+
+    return 0
 endfun
+
+function! IsTagEnd(line)
+    if line =~? '^\s*@end' || line =~? '^\s*@stop' || line =~? '^\s*@else'
+        return 1
+    endif
+
+    return 0
+endfunc
 
 function! TestBlade()
     if getline(a:lnum) =~ '\c</pre>' 
