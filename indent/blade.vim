@@ -40,7 +40,7 @@ function! GetBladeIndent()
         let indent += &sw
     endif
 
-    if IsTagEnd(line)
+    if IsTagEnd(curLine) == 1
         let indent -= &sw
     endif
 
@@ -52,7 +52,7 @@ endfunc
 
 
 function! IsTagStart(line)
-    if line =~? '^\s*@if' || line =~? '^\s*@else' || line =~? '^\s*@for' || line =~? '^\s*@sect'
+    if a:line =~? '^\s*@if' || a:line =~? '^\s*@else' || a:line =~? '^\s*@for' || a:line =~? '^\s*@sect'
         return 1
     endif
 
@@ -60,12 +60,12 @@ function! IsTagStart(line)
 endfun
 
 function! IsTagEnd(line)
-    if line =~? '^\s*@end' || line =~? '^\s*@stop' || line =~? '^\s*@else'
+    if a:line =~? '^\s*@end' || a:line =~? '^\s*@stop' || a:line =~? '^\s*@else'
         return 1
     endif
 
     return 0
-endfunc
+endfun
 
 function! TestBlade()
     if getline(a:lnum) =~ '\c</pre>' 
