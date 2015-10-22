@@ -20,7 +20,7 @@ let b:endList = []
 
 setlocal indentexpr=GetBladeIndent()
 
-setlocal indentkeys=o,O<Return>,<>>,{,},!^F,0{,0},0),:,!^F,e,*<Return>,=?>,=<?,=*/,@
+setlocal indentkeys=o,O<Return>,<>>,{,},!^F,0{,0},0),:,!^F,e,*<Return>,=?>,=<?,=*/,@end,@stop
 
 
 function! GetBladeIndent()
