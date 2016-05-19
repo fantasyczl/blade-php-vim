@@ -52,7 +52,7 @@ endfunc
 
 
 function! IsTagStart(line)
-    if a:line =~? '^\s*@if' || a:line =~? '^\s*@else' || a:line =~? '^\s*@for' || a:line =~? '^\s*@sect'
+    if a:line =~? '^\s*@if' || a:line =~? '^\s*@else' || a:line =~? '^\s*@for' || a:line =~? '^\s*@sect' || a:line =~? '^\s*@while'
         return 1
     endif
 
